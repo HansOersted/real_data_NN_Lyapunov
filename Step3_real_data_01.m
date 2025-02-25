@@ -12,38 +12,25 @@ gamma = 1e-4;
 %% Adopt csv data 
 
 UR5_experiment_01 = readtable('robot_data_01rad.csv');
-UR5_experiment_50 = readtable('robot_data_50rad.csv');
 
 sample_time_csv = 0.002; % 500 Hz
 
 time_csv_01 = UR5_experiment_01.timestamp;
-time_csv_50 = UR5_experiment_50.timestamp;
 
 q_ref_01 = UR5_experiment_01.target_q_5;
 dq_ref_01 = UR5_experiment_01.target_qd_5;
 ddq_ref_01 = UR5_experiment_01.target_qdd_5;
-q_ref_50 = UR5_experiment_50.target_q_5;
-dq_ref_50 = UR5_experiment_50.target_qd_5;
-ddq_ref_50 = UR5_experiment_50.target_qdd_5;
 
 q_actual_01 = UR5_experiment_01.actual_q_5;
 dq_actual_01 = UR5_experiment_01.actual_qd_5;
-q_actual_50 = UR5_experiment_50.actual_q_5;
-dq_actual_50 = UR5_experiment_50.actual_qd_5;
 
 e_csv_01 = q_actual_01 - q_ref_01;
 de_csv_01 = dq_actual_01 - dq_ref_01;
-e_csv_50 = q_actual_50 - q_ref_50;
-de_csv_50 = dq_actual_50 - dq_ref_50;
 
 dde_csv_01 = diff(de_csv_01) / sample_time_csv;  % lose 1 row
 % dde_csv_01 = smooth(dde_csv_01);
 ddde_csv_01 = diff(dde_csv_01) / sample_time_csv;  % lose 2 rows
 % ddde_csv_01 = smooth(ddde_csv_01);
-dde_csv_50 = diff(de_csv_50) / sample_time_csv;  % lose 1 row
-% dde_csv_50 = smooth(dde_csv_50);
-ddde_csv_50 = diff(dde_csv_50) / sample_time_csv;  % lose 2 rows
-% ddde_csv_50 = smooth(ddde_csv_50);
 
 interested_index_01 = [  1480:1493, ...
                          1979:1988, ...
@@ -55,40 +42,23 @@ interested_index_01 = [  1480:1493, ...
                          8949:8958, ...
                          9950:10012  ];
 
-interested_index_50 = [  1329:1372, ...
-                         1492:1572, ...
-                         1690:1787, ...
-                         4415:4457, ...
-                         4578:4662, ...
-                         4776:4857, ...
-                         7497:7542, ...
-                         7660:7742, ...
-                         7858:7907   ];
-
 de_interested_01 = de_csv_01(interested_index_01);
 dde_interested_01 = dde_csv_01(interested_index_01);
 ddde_interested_01 = ddde_csv_01(interested_index_01);
 
-de_interested_50 = de_csv_50(interested_index_50);
-dde_interested_50 = dde_csv_50(interested_index_50);
-ddde_interested_50 = ddde_csv_50(interested_index_50);
-
-de_interested = [de_interested_01; de_interested_50];
-dde_interested = [dde_interested_01; dde_interested_50];
-ddde_interested = [ddde_interested_01; ddde_interested_50];
 
 n1 = 1; % The number of experiments
 dimension = 1;
 
-E_interested = [de_interested];
-dE_interested = [dde_interested];
+E_interested = [de_interested_01];
+dE_interested = [dde_interested_01];
 
 for i = 1 : n1
     derivative_training_sample(i).data = E_interested;
     derivative_derivative_training_sample(i).data = dE_interested;
 end
 
-length = size(de_interested,1);
+length = size(interested_index_01,2);
 
 %% Prepare for Training
 h = 32; % Width of the hidden layer

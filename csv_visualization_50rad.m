@@ -35,12 +35,11 @@ dde = diff(de) / sample_time;  % lose 1 row
 % dde_interested = dde(idx_init:idx_final);
 
 %%
-%%
 figure
 subplot(3,1,1)
-plot(time-time(1),dq(:,1))
+plot(time,dq(:,1))
 hold on
-plot(time-time(1),dq_ref(:,1))
+plot(time,dq_ref(:,1))
 legend('dq5','dq5ref')
 subplot(3,1,2)
 plot(time-time(1),dq_ref(:,1)-dq(:,1))
@@ -48,7 +47,6 @@ ylabel('error')
 subplot(3,1,3)
 plot(time-time(1),ddq_ref(:,1))
 ylabel('ddq5ref')
-
 %% plot
 
 % only plot several points
