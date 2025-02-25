@@ -76,11 +76,11 @@ idx_plot = 1200:1787;
 
 time_plot = time(idx_plot) - time(1);
 figure
-plot(time_plot, dq_ref(idx_plot), 'r', 'LineWidth', 4) 
+plot(time_plot, dq_ref(idx_plot), 'Color','#00FF00', 'LineWidth', 4) 
 hold on
-plot(time_plot, dq(idx_plot), 'b', 'LineWidth', 2) 
-lgd = legend('$\dot{q}_{\mathrm{actual}}$', '$\dot{q}_{\mathrm{ref}}$', 'Interpreter', 'latex');
-set(lgd, 'FontSize', 24)
+plot(time_plot, dq(idx_plot), 'Color', '#D95319', 'LineWidth', 2) 
+lgd = legend('$\dot{q}_{\mathrm{ref}}$', '$\dot{q}_{\mathrm{actual}}$', 'Interpreter', 'latex');
+set(lgd, 'FontSize', 16)
 title("Tracking result","FontSize",16)
 ylabel('angular velocity [rad/s]','FontSize',16)
 xlabel('time [s]','FontSize',16)
