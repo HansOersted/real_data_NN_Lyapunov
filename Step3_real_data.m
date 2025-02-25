@@ -269,23 +269,16 @@ ylabel('Constraint Value');
 title('Constraints in the Last Epoch (Clean)');
 grid on;
 
+
+
 %%
-[e,de] = meshgrid(-20:1:20,-20:1:20);
-
+de = 0:0.2:10;
 A_plot = A;
-
 eig(A)
-
-Lyap = zeros(size(e));
-
-for i = size(e,1):-1:1
-    for j = size(e,1):-1:1
-        Lyap(i,j) = [e(i,j)  de(i,j)] * A_plot * [e(i,j) ; de(i,j)];
-    end
-end
+Lyap = A_plot .* de .^ 2;
 figure
-surf(e,de,Lyap)
-xlabel('$e$', 'Interpreter', 'latex', 'FontSize', 18);
-ylabel('$\dot{e}$', 'Interpreter', 'latex', 'FontSize', 18);
-zlabel('$V(e, \dot{e})$', 'Interpreter', 'latex', 'FontSize', 16);
+plot(de,Lyap)
+xlabel('$\dot{e}$', 'Interpreter', 'latex', 'FontSize', 18);
+ylabel('$V(\dot{e})$', 'Interpreter', 'latex', 'FontSize', 18);
 title(['Lyapunov Function ($\lambda = ' num2str(lambda_val) '$)'], 'Interpreter', 'latex', 'FontSize', 16);
+
