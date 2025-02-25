@@ -2,9 +2,9 @@ clear
 close all
 
 %% 
-A = 0.275162800026349;
-lambda = 2;
-gamma = 0.01;
+A = 0.018055356163152;
+lambda = 10;
+% gamma = 0.01;
 
 %% Adopt csv data 
 
@@ -28,18 +28,19 @@ dde_csv_01 = diff(de_csv_01) / sample_time_csv;  % lose 1 row
 ddde_csv_01 = diff(dde_csv_01) / sample_time_csv;  % lose 2 rows
 
 
-interested_index_01 = [  2981:3063  ];
+interested_index_01 = [  1480:1493  ];
 
+time_interested_01 = time_csv_01(interested_index_01) - time_csv_01(interested_index_01(1));
 de_interested_01 = de_csv_01(interested_index_01);
 dde_interested_01 = dde_csv_01(interested_index_01);
 ddde_interested_01 = ddde_csv_01(interested_index_01);
 
 
-E_interested = [de_interested_01];
-dE_interested = [dde_interested_01];
-
-
 %%
-% V = de' * A * de;
-% 
-% constraint = dde' * A * de + de' * A * dde + lambda * de' * A * de + gamma;
+V = de_interested_01 .* A .* de_interested_01;
+constraint = dde_interested_01 .* A .* de_interested_01 + de_interested_01 .* A .* dde_interested_01 + lambda * de_interested_01 .* A .* de_interested_01;
+figure
+subplot(2,1,1)
+plot(time_interested_01,V)
+subplot(2,1,2)
+plot(time_interested_01,constraint)
