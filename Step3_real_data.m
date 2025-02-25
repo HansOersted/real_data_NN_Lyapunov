@@ -5,7 +5,7 @@ warning on
 %% Highlight the important training parameters
 lambda_val = 2;
 num_epochs = 100;
-learning_rate = 1e-2;
+learning_rate = 1e-3;
 
 gamma = 1e-4;
 
