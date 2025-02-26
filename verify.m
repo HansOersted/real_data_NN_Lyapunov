@@ -49,15 +49,32 @@ plot(time_interested_01,constraint)
 
 figure
 hold on
-plot(de_interested_01, dde_interested_01, '-o');
-xlabel('de', 'Interpreter', 'latex');
-ylabel('dde', 'Interpreter', 'latex');
-title('Phase Diagram (de vs. dde)');
+
+plot(de_interested_01, dde_interested_01, '-o', ...
+    'Color', '#0072BD', 'LineWidth', 3, ...   
+    'MarkerSize', 10, ...                     
+    'MarkerEdgeColor', '#A2142F', ...        
+    'MarkerFaceColor', 'w', ...              
+    'Marker', 'o');                    
+
+xlabel('$$\dot{e}$$', 'Interpreter', 'latex', 'FontSize', 22);
+ylabel('$$\ddot{e}$$', 'Interpreter', 'latex', 'FontSize', 22);
+
+title('Phase Diagram ($$\dot{e}$$ vs. $$\ddot{e}$$)', 'Interpreter', 'latex', 'FontSize', 22);
+
 grid on;
-% mark the time
-for i = 1:1:7
-    text(de_interested_01(i), dde_interested_01(i), sprintf('%i', i), 'FontSize', 20);
+
+for i = 1:7
+    text(de_interested_01(i) + 0.002, dde_interested_01(i) + 2, sprintf('%i', i), ...
+        'FontSize', 18, 'FontWeight', 'bold', 'Color', 'k', 'HorizontalAlignment', 'left');
 end
+
+i = length(de_interested_01);
+text(de_interested_01(i) + 0.002, dde_interested_01(i) + 2, sprintf('%i', i), ...
+        'FontSize', 18, 'FontWeight', 'bold', 'Color', 'k', 'HorizontalAlignment', 'left');
+
+xline(0, '--k', 'LineWidth', 1.5); 
+yline(0, '--k', 'LineWidth', 1.5);
 
 hold off
 
