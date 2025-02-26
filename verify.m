@@ -2,7 +2,7 @@ clear
 close all
 
 %% 
-A = 0.018055356163152;
+A = 0.035905175142147;
 lambda = 10;
 % gamma = 0.01;
 
@@ -44,3 +44,24 @@ subplot(2,1,1)
 plot(time_interested_01,V)
 subplot(2,1,2)
 plot(time_interested_01,constraint)
+
+%% phase diagram
+
+figure
+hold on
+plot(de_interested_01, dde_interested_01, '-o');
+xlabel('de', 'Interpreter', 'latex');
+ylabel('dde', 'Interpreter', 'latex');
+title('Phase Diagram (de vs. dde)');
+grid on;
+% mark the time
+for i = 1:1:7
+    text(de_interested_01(i), dde_interested_01(i), sprintf('%i', i), 'FontSize', 20);
+end
+
+hold off
+
+
+%% V and constraint
+
+
