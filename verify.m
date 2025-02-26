@@ -64,10 +64,14 @@ title('Phase Diagram ($$\dot{e}$$ vs. $$\ddot{e}$$)', 'Interpreter', 'latex', 'F
 
 grid on;
 
-for i = 1:7
-    text(de_interested_01(i) + 0.002, dde_interested_01(i) + 2, sprintf('%i', i), ...
+for i = 1:6
+    text(de_interested_01(i) + 0.004, dde_interested_01(i) + 2, sprintf('%i', i), ...
         'FontSize', 18, 'FontWeight', 'bold', 'Color', 'k', 'HorizontalAlignment', 'left');
 end
+
+i = 7;
+text(de_interested_01(i), dde_interested_01(i) + 10, sprintf('%i', i), ...
+        'FontSize', 18, 'FontWeight', 'bold', 'Color', 'k', 'HorizontalAlignment', 'left');
 
 i = length(de_interested_01);
 text(de_interested_01(i) + 0.002, dde_interested_01(i) + 2, sprintf('%i', i), ...
