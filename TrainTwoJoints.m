@@ -4,7 +4,7 @@ clc
 warning on
 %% Highlight the important training parameters
 lambda_val = 10;
-num_epochs = 400;
+num_epochs = 2000;
 learning_rate = 1e-3;
 
 gamma = 1e-4;
@@ -43,8 +43,7 @@ ddde_csv_second = diff(dde_csv_second) / sample_time_csv;  % lose 2 rows
 % ddde_csv_second = smooth(ddde_csv_second);
 
 %% Extract the nontrival idx
-nontrival_idx = ones(100,2);
-
+% 99 in total
 nontrival_idx = [  644     665   ;
                    845     869   ;
                    1045    1052  ;
@@ -72,53 +71,88 @@ nontrival_idx = [  644     665   ;
                    5449    5467  ; 
                    5650    5671  ;
                    5850    5867  ;
-                   6050
-                   6251
-                   6451
-                   6651
-                   6852
-                   7051
-                   7251
-                   7451
-                   7652
-                   7852
-                   8052
-                   8253
-                   8453
-                   8653
-                   8853
-                   9054
-                   9254
-                   9454
-                   9653
-                   9853
-                   10053
-                   10254
-                   10454
-                   10654
-                   10854
-                   11055
-                   11255
-                   11455
-                   11656
-                   11856
-                   12055
-                   12256
-                   12456
-                   
-                   ];
+                   6050    6069  ;
+                   6251    6265  ;
+                   6451    6471  ;
+                   6651    6668  ;
+                   6852    6873  ;
+                   7051    7062  ;
+                   7251    7276  ;
+                   7451    7471  ;
+                   7652    7657  ;
+                   7852    7875  ;
+                   8052    8072  ;
+                   8253    8273  ;
+                   8453    8469  ;
+                   8653    8676  ;
+                   8853    8860  ;
+                   9054    9076  ;
+                   9254    9269  ;
+                   9454    9469  ;
+                   9653    9675  ;
+                   9853    9862  ;
+                   10053   10070 ;
+                   10254   10275 ;
+                   10454   10477 ;
+                   10654   10663 ;
+                   10854   10869 ;
+                   11055   11072 ;
+                   11255   11276 ;
+                   11455   11461 ;
+                   11656   11679 ;
+                   11856   11861 ;
+                   12055   12072 ;
+                   12256   12277 ;
+                   12456   12472 ;
+                   12656   12673 ;
+                   12856   12880 ;
+                   13057   13071 ;
+                   13257   13282 ;
+                   13455   13473 ;
+                   13658   13666 ;
+                   13858   13882 ;
+                   14058   14073 ;
+                   14259   14282 ;
+                   14459   14474 ;
+                   14659   14679 ;
+                   14859   14874 ;
+                   15060   15067 ;
+                   15260   15274 ;
+                   15460   15468 ;
+                   15661   15682 ;
+                   15861   15874 ;
+                   16061   16081 ;
+                   16262   16267 ;
+                   16462   16477 ;
+                   16662   16681 ;
+                   16862   16865 ;
+                   17063   17083 ;
+                   17263   17278 ;
+                   17463   17485 ;
+                   17663   17674 ;
+                   17864   17883 ;
+                   18064   18087 ;
+                   18264   18278 ;
+                   18465   18470 ;
+                   18664   18685 ;
+                   18864   18887 ;
+                   19065   19083 ;
+                   19265   19279 ;
+                   19465   19481 ;
+                   19666   19675 ;
+                   19866   19889 ;
+                   20066   20086 ;
+                   20266   20286   ];
 
 
 %% Pick the index for training
-training_index =    [    nontrival_idx(1,1) : nontrival_idx(1,2), ...
-                         nontrival_idx(2,1) : nontrival_idx(2,2), ...
-                         nontrival_idx(3,1) : nontrival_idx(3,2), ...
-                         nontrival_idx(4,1) : nontrival_idx(4,2), ...
-                         nontrival_idx(5,1) : nontrival_idx(5,2), ...
-                         nontrival_idx(6,1) : nontrival_idx(6,2), ...
-                         nontrival_idx(7,1) : nontrival_idx(7,2), ...
-                         nontrival_idx(8,1) : nontrival_idx(8,2), ...
-                         nontrival_idx(9,1) : nontrival_idx(9,2)  ];
+training_index = [];
+
+n_training = 10;
+for i = 1 : n_training
+    training_index = [ training_index nontrival_idx(i,1) : nontrival_idx(i,2) ];
+end
+
 
 %%
 de_training_first = de_csv_first(training_index);
