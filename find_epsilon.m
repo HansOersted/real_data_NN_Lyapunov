@@ -251,17 +251,24 @@ ax = gca;
 
 % 设置左侧 y 轴
 yyaxis left
-plot(time, V, "Color", '#0072BD', 'LineWidth', 2); % 蓝色线，左 y 轴
+h1 = plot(time, V, "Color", '#0072BD', 'LineWidth', 2); % 蓝色线，左 y 轴
 ylabel('V', 'FontSize', 20, 'Interpreter', 'latex', "Color", '#0072BD'); % 设置左 y 轴标签
-ylim([min(V)-abs(min(V))*0.1, max(V)+abs(max(V))*0.1]); % 调整左 y 轴范围
+ylim([-0.0001, max(V)+abs(max(V))*0.1]); % 调整左 y 轴范围
 ax.YColor = '#0072BD'; % 设置左侧 y 轴刻度颜色
+
+% 添加蓝色虚线表示 V = 0，但不添加到图例
+yline(0, '--b', 'LineWidth', 2, 'HandleVisibility', 'off');
 
 % 设置右侧 y 轴
 yyaxis right
-plot(time, constraint, "Color", '#A2142F', 'LineWidth', 2); % 红色线，右 y 轴
+h2 = plot(time, constraint, "Color", '#A2142F', 'LineWidth', 2); % 红色线，右 y 轴
 ylabel('Constraint', 'FontSize', 20, 'Interpreter', 'latex', "Color", '#A2142F'); % 设置右 y 轴标签
-ylim([min(constraint)-abs(min(constraint))*0.1, max(constraint)+abs(max(constraint))*0.1]); % 调整右 y 轴范围
+ylim([min(constraint)-abs(min(constraint))*0.1, 0.01]); % 调整右 y 轴范围
 ax.YColor = '#A2142F'; % 设置右侧 y 轴刻度颜色
+
+% 添加红色虚线表示 constraint = 0，但不添加到图例
+yline(0, '--r', 'LineWidth', 2, 'HandleVisibility', 'off');
+
 
 % 设置 x 轴标签
 xlabel('Time', 'FontSize', 18, 'Interpreter', 'latex');
@@ -269,8 +276,7 @@ xlabel('Time', 'FontSize', 18, 'Interpreter', 'latex');
 % 设置标题
 title('Lyapunov and Constraint', 'FontSize', 22, 'Interpreter', 'latex');
 
-% 添加图例
-legend({'V', 'Constraint'}, 'Location', 'best', 'FontSize', 18);
+% 添加图例，只包含 V 和 Constraint
+legend([h1, h2], {'V', 'Constraint'}, 'Location', 'best', 'FontSize', 18);
 
 hold off
-
