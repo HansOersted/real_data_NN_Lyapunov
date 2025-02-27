@@ -1,9 +1,12 @@
 clear
+close all
 %%
 A = [ 0.279545252782875  -0.034124554112530;
   -0.034124554112530   0.440942074913554];
 
-lambda_val = 5;
+lambda = 5;
+
+epsilon = 0.08;
 
 %% Adopt csv data 
 UR5_experiment = readtable('final_data.csv');
@@ -172,24 +175,102 @@ for i = 1 : n1
     derivative_derivative_training_sample(i).data = dE_interested;
 end
 
-length = length(training_index);
+length_ = length(training_index);
 
 %%
 constraint_last_epoch_epsilon = [];
 for i = 1 : n1
-    for t = 1 : length
+    for t = 1 : length_
         % Extract Current Time Step Data
         de = derivative_training_sample(i).data(t, :)'; % Tracking error derivative
         dde = derivative_derivative_training_sample(i).data(t, :)'; % Second derivative
-        constraint_clean_epsilon = dde' * A * de + de' * A * dde + lambda_val * de' * A * de;
+        constraint_clean_epsilon = dde' * A * de + de' * A * dde + lambda * de' * A * de;
         constraint_last_epoch_epsilon = [constraint_last_epoch_epsilon, constraint_clean_epsilon];
     end
 end
 
 %%
-figure;
-plot(1:size(constraint_last_epoch_epsilon,2), constraint_last_epoch_epsilon, 'LineWidth', 2);
-xlabel('Training Sample Index');
-ylabel('Constraint Value');
-title('Constraints in the Last Epoch (Clean)');
-grid on;
+% figure;
+% plot(1:size(constraint_last_epoch_epsilon,2), constraint_last_epoch_epsilon, 'LineWidth', 2);
+% xlabel('Training Sample Index');
+% ylabel('Constraint Value');
+% title('Constraints in the Last Epoch (Clean)');
+% grid on;
+
+%%
+data_num = 1;
+
+verification_index = nontrival_idx(data_num,1) : nontrival_idx(data_num,2);
+
+de_verification_first = de_csv_first(verification_index);
+de_verification_second = de_csv_second(verification_index);
+
+dde_verification_first = dde_csv_first(verification_index);
+dde_verification_second = dde_csv_second(verification_index);
+
+dE = [de_verification_first  de_verification_second];
+ddE = [dde_verification_first  dde_verification_second];
+
+V = [];
+constraint = [];
+time = [];
+
+for i = 1 : length(verification_index) 
+    de_verification = dE(i,:)';
+    dde_verification = ddE(i,:)';
+    V = [ V de_verification' * A * de_verification ];
+    constraint = [ constraint dde_verification' * A * de_verification + de_verification' * A * dde_verification + lambda * de_verification' * A * de_verification - epsilon];
+    time = [ time time_csv(verification_index(i)) ];
+end
+
+figure
+subplot(2,1,1)
+plot(1 : length(verification_index) ,V)
+subplot(2,1,2)
+plot(1 : length(verification_index) ,constraint)
+
+figure
+plot(1 : length(verification_index) ,dq_ref_first(verification_index))
+
+figure
+plot(1 : length(verification_index) ,dq_actual_first(verification_index))
+
+%% V and constraint
+
+delay_fix = 3;  % UR5 has 2 steps delay
+time = time(delay_fix:end) - time(delay_fix);
+V = V(delay_fix:end);
+constraint = constraint(delay_fix:end);
+
+figure
+hold on
+grid on
+
+% 获取当前坐标轴句柄
+ax = gca;
+
+% 设置左侧 y 轴
+yyaxis left
+plot(time, V, "Color", '#0072BD', 'LineWidth', 2); % 蓝色线，左 y 轴
+ylabel('V', 'FontSize', 20, 'Interpreter', 'latex', "Color", '#0072BD'); % 设置左 y 轴标签
+ylim([min(V)-abs(min(V))*0.1, max(V)+abs(max(V))*0.1]); % 调整左 y 轴范围
+ax.YColor = '#0072BD'; % 设置左侧 y 轴刻度颜色
+
+% 设置右侧 y 轴
+yyaxis right
+plot(time, constraint, "Color", '#A2142F', 'LineWidth', 2); % 红色线，右 y 轴
+ylabel('Constraint', 'FontSize', 20, 'Interpreter', 'latex', "Color", '#A2142F'); % 设置右 y 轴标签
+ylim([min(constraint)-abs(min(constraint))*0.1, max(constraint)+abs(max(constraint))*0.1]); % 调整右 y 轴范围
+ax.YColor = '#A2142F'; % 设置右侧 y 轴刻度颜色
+
+% 设置 x 轴标签
+xlabel('Time', 'FontSize', 18, 'Interpreter', 'latex');
+
+% 设置标题
+title('Lyapunov and Constraint', 'FontSize', 22, 'Interpreter', 'latex');
+
+% 添加图例
+legend({'V', 'Constraint'}, 'Location', 'best', 'FontSize', 18);
+
+hold off
+
