@@ -6,7 +6,7 @@ A = [ 0.279545252782875  -0.034124554112530;
 
 lambda = 5;
 
-epsilon = 0.08;
+epsilon = 0.071;
 
 %% Adopt csv data 
 UR5_experiment = readtable('final_data.csv');
@@ -190,15 +190,15 @@ for i = 1 : n1
 end
 
 %%
-% figure;
-% plot(1:size(constraint_last_epoch_epsilon,2), constraint_last_epoch_epsilon, 'LineWidth', 2);
-% xlabel('Training Sample Index');
-% ylabel('Constraint Value');
-% title('Constraints in the Last Epoch (Clean)');
-% grid on;
+figure;
+plot(1:size(constraint_last_epoch_epsilon,2), constraint_last_epoch_epsilon, 'LineWidth', 2);
+xlabel('Training Sample Index');
+ylabel('Constraint Value');
+title('Constraints in the Last Epoch (Clean)');
+grid on;
 
 %%
-data_num = 1;
+data_num = 8;
 
 verification_index = nontrival_idx(data_num,1) : nontrival_idx(data_num,2);
 
@@ -223,17 +223,17 @@ for i = 1 : length(verification_index)
     time = [ time time_csv(verification_index(i)) ];
 end
 
-figure
-subplot(2,1,1)
-plot(1 : length(verification_index) ,V)
-subplot(2,1,2)
-plot(1 : length(verification_index) ,constraint)
-
-figure
-plot(1 : length(verification_index) ,dq_ref_first(verification_index))
-
-figure
-plot(1 : length(verification_index) ,dq_actual_first(verification_index))
+% figure
+% subplot(2,1,1)
+% plot(1 : length(verification_index) ,V)
+% subplot(2,1,2)
+% plot(1 : length(verification_index) ,constraint)
+% 
+% figure
+% plot(1 : length(verification_index) ,dq_ref_first(verification_index))
+% 
+% figure
+% plot(1 : length(verification_index) ,dq_actual_first(verification_index))
 
 %% V and constraint
 
@@ -280,3 +280,6 @@ title('Lyapunov and Constraint', 'FontSize', 22, 'Interpreter', 'latex');
 legend([h1, h2], {'V', 'Constraint'}, 'Location', 'best', 'FontSize', 18);
 
 hold off
+
+%% Calculate the generalization error
+
