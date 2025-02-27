@@ -33,15 +33,15 @@ dde = diff(de) / sample_time;  % lose 1 row
 %%
 figure
 subplot(3,1,1)
-plot(time,dq(:,1))
+plot(1:length(dq),dq(:,1))
 hold on
-plot(time,dq_ref(:,1))
+plot(1:length(dq),dq_ref(:,1))
 legend('dq3','dq3ref')
 subplot(3,1,2)
-plot(time-time(1),dq_ref(:,1)-dq(:,1))
+plot(time,dq_ref(:,1)-dq(:,1))
 ylabel('error')
 subplot(3,1,3)
-plot(time-time(1),ddq_ref(:,1))
+plot(time,ddq_ref(:,1))
 ylabel('ddq3ref')
 %% plot
 
@@ -72,3 +72,9 @@ ylabel('ddq3ref')
 % plot(time, ddq_ref)
 % figure
 % plot(time,dq_ref)
+
+%%
+
+figure
+plot(1:length(dq),dq_ref(:,1))
+legend('dq3','dq3ref')
