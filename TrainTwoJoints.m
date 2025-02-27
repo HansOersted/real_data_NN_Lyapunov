@@ -10,23 +10,23 @@ learning_rate = 1e-3;
 gamma = 1e-4;
 
 %% Adopt csv data 
-UR5_experiment = readtable('robot_data_01rad.csv');
+UR5_experiment = readtable('final_data.csv');
 
 sample_time_csv = 0.002; % 500 Hz
 
 time_csv = UR5_experiment.timestamp;
 
-q_ref_first = UR5_experiment.target_q_5;
-dq_ref_first = UR5_experiment.target_qd_5;
-ddq_ref_first = UR5_experiment.target_qdd_5;
-q_ref_second = UR5_experiment.target_q_1;
-dq_ref_second = UR5_experiment.target_qd_1;
-ddq_ref_second = UR5_experiment.target_qdd_1;
+q_ref_first = UR5_experiment.target_q_3;
+dq_ref_first = UR5_experiment.target_qd_3;
+ddq_ref_first = UR5_experiment.target_qdd_3;
+q_ref_second = UR5_experiment.target_q_5;
+dq_ref_second = UR5_experiment.target_qd_5;
+ddq_ref_second = UR5_experiment.target_qdd_5;
 
-q_actual_first = UR5_experiment.actual_q_5;
-dq_actual_first = UR5_experiment.actual_qd_5;
-q_actual_second = UR5_experiment.actual_q_1;
-dq_actual_second = UR5_experiment.actual_qd_1;
+q_actual_first = UR5_experiment.actual_q_3;
+dq_actual_first = UR5_experiment.actual_qd_3;
+q_actual_second = UR5_experiment.actual_q_5;
+dq_actual_second = UR5_experiment.actual_qd_5;
 
 e_csv_first = q_actual_first - q_ref_first;
 de_csv_first = dq_actual_first - dq_ref_first;
