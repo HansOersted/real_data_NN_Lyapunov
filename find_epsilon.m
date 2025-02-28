@@ -1,12 +1,13 @@
 clear
 close all
 %%
-A = [ 0.279545252782875  -0.034124554112530;
-  -0.034124554112530   0.440942074913554];
+n_training = 30;
+A = [ 0.097548374144595   0.020809830962908
+   0.020809830962908   0.017192382452021 ];
+epsilon = 0.0209;
 
+data_num = 10; % plot the constraint
 lambda = 5;
-
-epsilon = 0.071;
 
 %% Adopt csv data 
 UR5_experiment = readtable('final_data.csv');
@@ -146,7 +147,6 @@ nontrival_idx = [  644     665   ;
 %% Pick the index for training
 training_index = [];
 
-n_training = 10;
 for i = 1 : n_training
     training_index = [ training_index nontrival_idx(i,1) : nontrival_idx(i,2) ];
 end
@@ -190,15 +190,14 @@ for i = 1 : n1
 end
 
 %%
-% figure;
-% plot(1:size(constraint_last_epoch_epsilon,2), constraint_last_epoch_epsilon, 'LineWidth', 2);
-% xlabel('Training Sample Index');
-% ylabel('Constraint Value');
-% title('Constraints in the Last Epoch (Clean)');
-% grid on;
+figure;
+plot(1:size(constraint_last_epoch_epsilon,2), constraint_last_epoch_epsilon, 'LineWidth', 2);
+xlabel('Training Sample Index');
+ylabel('Constraint Value');
+title('Constraints in the Last Epoch (Clean)');
+grid on;
 
 %%
-data_num = 8;
 
 verification_index = nontrival_idx(data_num,1) : nontrival_idx(data_num,2);
 

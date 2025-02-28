@@ -3,10 +3,11 @@ close all
 clc
 warning on
 %% Highlight the important training parameters
+n_training = 30;
+
 lambda_val = 5;
 num_epochs = 2000;
 learning_rate = 1e-3;
-
 gamma = 1e-4;
 
 %% Adopt csv data 
@@ -148,7 +149,6 @@ nontrival_idx = [  644     665   ;
 %% Pick the index for training
 training_index = [];
 
-n_training = 10;
 for i = 1 : n_training
     training_index = [ training_index nontrival_idx(i,1) : nontrival_idx(i,2) ];
 end
