@@ -3,7 +3,7 @@ close all
 clc
 warning on
 %% Highlight the important training parameters
-n_training = 10;
+n_training = 99;
 
 lambda_val = 5;
 num_epochs = 2000;
