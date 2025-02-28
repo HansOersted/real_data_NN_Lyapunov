@@ -190,12 +190,12 @@ for i = 1 : n1
 end
 
 %%
-figure;
-plot(1:size(constraint_last_epoch_epsilon,2), constraint_last_epoch_epsilon, 'LineWidth', 2);
-xlabel('Training Sample Index');
-ylabel('Constraint Value');
-title('Constraints in the Last Epoch (Clean)');
-grid on;
+% figure;
+% plot(1:size(constraint_last_epoch_epsilon,2), constraint_last_epoch_epsilon, 'LineWidth', 2);
+% xlabel('Training Sample Index');
+% ylabel('Constraint Value');
+% title('Constraints in the Last Epoch (Clean)');
+% grid on;
 
 %%
 data_num = 8;
@@ -283,3 +283,26 @@ hold off
 
 %% Calculate the generalization error
 
+generalization_index = [];
+error_count = 0;
+num_test = size(nontrival_idx,1) - n_training;
+for i = (n_training + 1) : size(nontrival_idx,1)
+    generalization_index = (nontrival_idx(i,1) + 2) : nontrival_idx(i,2);
+    constraint = [];
+    for j = 1 : length(generalization_index)
+        de_generalization_first = de_csv_first(generalization_index(j));
+        de_generalization_second = de_csv_second(generalization_index(j));
+        de_generalization = [de_generalization_first; de_generalization_second];
+    
+        dde_generalization_first = dde_csv_first(generalization_index(j));
+        dde_generalization_second = dde_csv_second(generalization_index(j));
+        dde_generalization = [dde_generalization_first; dde_generalization_second];
+    
+        constraint = [ constraint dde_generalization' * A * de_generalization + de_generalization' * A * dde_generalization + lambda * de_generalization' * A * de_generalization - epsilon];
+    end
+    if any(constraint > 0)
+        error_count = error_count + 1;
+    end
+end
+
+generalization_error = error_count/num_test
