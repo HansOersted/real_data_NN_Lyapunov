@@ -1,12 +1,12 @@
 clear
 close all
 %%
-n_training = 30;
-A = [ 0.097548374144595   0.020809830962908
-   0.020809830962908   0.017192382452021 ];
-epsilon = 0.0209;
+n_training = 10;
+A = [  0.329307706919647   0.017873808679665;
+   0.017873808679665   0.226444477927737 ];
+epsilon = 0.0720;
 
-data_num = 10; % plot the constraint
+data_num = 2; % plot the constraint
 lambda = 5;
 
 %% Adopt csv data 
@@ -276,7 +276,7 @@ xlabel('Time', 'FontSize', 18, 'Interpreter', 'latex');
 title('Lyapunov and Constraint', 'FontSize', 22, 'Interpreter', 'latex');
 
 % 添加图例，只包含 V 和 Constraint
-legend([h1, h2], {'V', 'Constraint'}, 'Location', 'best', 'FontSize', 18);
+legend([h1, h2], {'Lyapunov function', 'Constraint (bounded noise)'}, 'Location', 'best', 'FontSize', 14);
 
 hold off
 

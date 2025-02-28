@@ -1,3 +1,19 @@
+% n = 2
+error_2 = [ 0.453608247422680;
+            0.288659793814433;
+            0.731958762886598;
+            0.484536082474227;
+            0.340206185567010;
+            0.597938144329897];
+
+% n = 5
+error_5 = [ 0.127659574468085;
+            0.170212765957447;
+            0.223404255319149;
+            0.106382978723404;
+            0.106382978723404;
+            0.085106382978723];
+
 % n = 10
 error_10 = [   0.0787;
     0.022471910112360;
@@ -30,28 +46,35 @@ error_40 = [  0;
    0.050847457627119;
    0.101694915254237];
 
-%%
-n_values = [10, 20, 30, 40];
+% n = 50
+error_50 = [  0;
+              0;
+              0;
+              0.020408163265306;
+              0;
+              0  ];
 
-errors = [error_10, error_20, error_30, error_40];
+%%
+n_values = [2, 5, 10, 20, 30, 40, 50];
+
+errors = [error_2, error_5, error_10, error_20, error_30, error_40, error_50];
 
 %%
 figure;
 hold on;
 
-for j1 = 1:length(n_values)
-    for j2 = 1:length(n_values)
-        if j1 ~= j2 
-            for i1 = 1:size(errors, 1)
-                for i2 = 1:size(errors, 1)
-                    plot([n_values(j1), n_values(j2)], [errors(i1, j1), errors(i2, j2)], '-o', 'LineWidth', 1.2, 'MarkerSize', 6);
-                end
-            end
+for j1 = 1:(length(n_values)-1)  % 只遍历相邻的 n
+    j2 = j1 + 1;  % 仅连接相邻的 n
+    for i1 = 1:size(errors, 1)
+        for i2 = 1:size(errors, 1)
+            plot([n_values(j1), n_values(j2)], [errors(i1, j1), errors(i2, j2)], '-o', 'LineWidth', 0.2, 'MarkerSize', 6);
         end
     end
 end
 
+xlim([0 50]);
 xlabel('Numbers of traning samples', 'FontSize', 16);
+ylim([0 1]);
 ylabel('Error', 'FontSize', 16);
 title('Generalization Error', 'FontSize', 18);
 
